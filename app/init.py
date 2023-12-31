@@ -13,6 +13,7 @@ def create_database():
             id INTEGER PRIMARY KEY,
             node_id INTEGER UNIQUE NOT NULL,
             title TEXT NOT NULL,
+            title_cn TEXT,
             url TEXT NOT NULL,
             image TEXT,          -- Field for base64 encoded image
             body BLOB,           -- Field for text blob (body)

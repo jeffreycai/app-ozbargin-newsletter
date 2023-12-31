@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 import os
+import base64
 
 def get_null_updated_records():
     # Connect to the SQLite database
@@ -43,11 +44,15 @@ def scrape_and_update():
 
         # Extract main body content (modify this according to the actual structure of the webpage)
         main_body = soup.find('div', {'class': 'node-ozbdeal'}).find('div', {'class': 'content'}).get_text()
-        image = soup.find('div', {'class': 'node-ozbdeal'}).find('div', {'class': 'foxshot-container'}).find('img').get('src')
+        image_url = soup.find('div', {'class': 'node-ozbdeal'}).find('div', {'class': 'foxshot-container'}).find('img').get('src')
+
+        image_response = requests.get(image_url)
+        image_base64 = base64.b64encode(image_response.content).decode('utf-8')
+
         link = f'https://{os.getenv("DOMAIN")}/goto/{node_id}'
 
         # Update the record in the database
-        update_record(node_id, main_body, image, link)
+        update_record(node_id, main_body, image_base64, link)
         print(f"Updated Node ID: {node_id}")
 
 if __name__ == '__main__':

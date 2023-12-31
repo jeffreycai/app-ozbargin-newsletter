@@ -47,6 +47,14 @@ query:
 	${RUN} python3 query.py
 .PHONY: query
 
+draw:
+	${RUN} python3 draw.py
+.PHONY: draw
+
+screenshot:
+	${RUN} python3 screenshot.py
+.PHONY: screenshot
+
 cleanup:
-	rm app/data/deals.db
+	rm -rf app/data/deals.db
 .PHONY: cleanup
