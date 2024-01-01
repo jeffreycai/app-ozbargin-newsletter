@@ -26,7 +26,7 @@
             max-width: 600px; /* Optimized width for iPhone */
             margin: auto;
             background: #fff;
-            padding: 20px;
+            padding: 20px 20px 80px 20px;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
@@ -91,6 +91,35 @@
 <body>
     <div class="container">
         <!-- Deals will be inserted here -->
+
+        <!-- Image at the bottom right corner -->
+        <img src="wechat.jpg" alt="Wechat Image" class="bottom-right-image">
     </div>
+
+    <style>
+        /* Positioning Image at Bottom Right */
+        .bottom-right-image {
+            position: absolute; /* Absolute positioning */
+            right: 10px; /* Positioned 10px from the right */
+            bottom: 10px; /* Positioned 10px from the bottom */
+            max-width: 150px; /* Increased image size */
+            height: auto;
+            border: 8px solid #333333; /* Dark grey border for visibility */
+            border-radius: 10%; /* Circular Image */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Adding a subtle shadow */
+        }
+
+        .container {
+            position: relative; /* Relative positioning to contain the absolute image */
+            /* Other existing styles... */
+        }
+
+        /* Responsive Design for Image */
+        @media (max-width: 600px) {
+            .bottom-right-image {
+                max-width: 85px; /* Adjusted smaller image size for smaller screens */
+            }
+        }
+    </style>
 </body>
 </html>

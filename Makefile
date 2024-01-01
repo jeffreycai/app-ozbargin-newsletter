@@ -13,9 +13,20 @@ build:
 	docker build -t ${DOCKER_IMAGE_NAME} -f docker/Dockerfile .
 .PHONY: build
 
+up: down
+	docker-compose up -d
+.PHONY: up
+
+down:
+	docker-compose stop
+	docker-compose rm -f
+.PHONY: down
+
 # debug worker container
-debug:
-	docker run --rm -it -v ./:/opt/app ${DOCKER_IMAGE_NAME} /bin/bash
+debug: up
+	sleep 2
+	docker-compose exec -it worker /usr/bin/bash
+	$(MAKE) -C . down
 .PHONY: debug
 
 # push work image
@@ -47,12 +58,12 @@ query:
 	${RUN} python3 query.py
 .PHONY: query
 
-draw:
+draw: # generate htmls
 	${RUN} python3 draw.py
 .PHONY: draw
 
 screenshot:
-	${RUN} python3 screenshot.py
+	${RUN} bash -c node screenshot.js
 .PHONY: screenshot
 
 cleanup:

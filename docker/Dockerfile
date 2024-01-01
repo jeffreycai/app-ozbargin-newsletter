@@ -22,7 +22,7 @@ RUN . /root/.bashrc && nvm install node
 RUN python3 -m venv /opt/venv
 RUN . /opt/venv/bin/activate && \
     pip install \
-      requests bs4 sqlite-fts4 google-generativeai
+      requests bs4 google-generativeai psycopg2-binary pytz
 
 ENV PATH="/opt/venv/bin:$PATH"
 
