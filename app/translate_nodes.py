@@ -17,7 +17,7 @@ def translate(text, api_key):
         model = genai.GenerativeModel(model_name='gemini-pro')
         
         # Craft a prompt for translation
-        prompt = f"Translate the text into Chinese, do not change '|' character:\n\n{text}"
+        prompt = f"Translate the text into Chinese, do not change '|' character. For all $ signs, translated it as '澳元', not '美元':\n\n{text}"
 
         # Make the API call
         response = model.generate_content(prompt)

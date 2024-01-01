@@ -13,8 +13,8 @@ build:
 	docker build -t ${DOCKER_IMAGE_NAME} -f docker/Dockerfile .
 .PHONY: build
 
-up: down
-	docker-compose up -d
+up:
+	docker-compose ps -q | grep -q . || (docker-compose up -d && sleep 5)
 .PHONY: up
 
 down:
@@ -24,9 +24,7 @@ down:
 
 # debug worker container
 debug: up
-	sleep 2
 	docker-compose exec -it worker /usr/bin/bash
-	$(MAKE) -C . down
 .PHONY: debug
 
 # push work image
@@ -35,37 +33,38 @@ push:
 .PHONY: push
 
 ## projects
-run: init scrape_home scrape_nodes translate_nodes
+run: up init scrape_home scrape_nodes translate_nodes draw screenshot
 .PHONY: run
 
-scrape_home: init
+scrape_home: up
 	${RUN} python3 scrape_home.py
 .PHONY: scrape_home
 
-scrape_nodes:
+scrape_nodes: up
 	${RUN} python3 scrape_nodes.py
 .PHONY: scrape_nodes
 
-translate_nodes:
+translate_nodes: up
 	${RUN} python3 translate_nodes.py
 .PHONY: translate_nodes
 
-init:
+init: up
 	${RUN} python3 init.py
 .PHONY: init
 
-query:
-	${RUN} python3 query.py
-.PHONY: query
-
-draw: # generate htmls
+draw: up # generate htmls
 	${RUN} python3 draw.py
 .PHONY: draw
 
-screenshot:
-	${RUN} bash -c node screenshot.js
+screenshot: up
+	${RUN} /root/.nvm/versions/node/v21.5.0/bin/node screenshot.js
 .PHONY: screenshot
 
-cleanup:
-	rm -rf app/data/deals.db
+sendmail: up
+	${RUN} python3 sendmail.py
+.PHONY: sendmail
+
+cleanup: #down
+	rm -rf publish/output*
+#	docker volume ls -q | grep ozbargin | xargs -r docker volume rm -f
 .PHONY: cleanup

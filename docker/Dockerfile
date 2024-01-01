@@ -24,6 +24,12 @@ RUN . /opt/venv/bin/activate && \
     pip install \
       requests bs4 google-generativeai psycopg2-binary pytz
 
+# gmail sender
+COPY ../module-gmail-sender/requirements.txt .
+RUN . /opt/venv/bin/activate && \
+    pip install -r requirements.txt
+RUN rm requirements.txt
+
 ENV PATH="/opt/venv/bin:$PATH"
 
 WORKDIR /opt/app

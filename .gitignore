@@ -2,3 +2,4 @@
 .DS_Store
 app/data/*
 __pycache__
+app/publish/output*

@@ -3,123 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deals</title>
+    <title>Product Showcase</title>
     <style>
-        /* Basic Reset */
-        * {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
+            background: #eaeaea;
+            color: #333;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
             box-sizing: border-box;
         }
 
-        /* Body Styling */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        /* Container for Content */
-        .container {
-            max-width: 600px; /* Optimized width for iPhone */
-            margin: auto;
+        .product {
             background: #fff;
-            padding: 20px 20px 80px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            height: 600px; /* Fixed height for each product */
         }
 
-        /* Deal Container Styling */
-        .deal-container {
-            margin-bottom: 30px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
-        }
-
-        .deal-title {
-            font-size: 22px; /* Larger Font Size */
+        .product-title {
+            font-size: 1.3em;
+            color: #007bff;
             margin-bottom: 15px;
-            font-family: 'Helvetica Neue', sans-serif; /* Modern Font Family */
-            color: #004085; /* Deep Blue Color */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Subtle Text Shadow for Depth */
-            padding: 5px;
-            border-left: 4px solid #007bff; /* Left Border Accent */
-            background-color: rgba(0, 123, 255, 0.1); /* Light Background for Contrast */
-            border-radius: 3px;
         }
 
-        .deal-image {
-            width: 100%; /* Full width of container */
-            max-width: 300px; /* Limit maximum size */
+        .product-introduction {
+            font-size: 1.1em;
+            text-align: center;
+            margin-bottom: 15px;
+            height: 260px; /* Fixed height for the introduction text */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Number of lines after which text is truncated */
+            -webkit-box-orient: vertical;
+        }
+
+        .product-image {
+            max-width: 100%;
             height: auto;
-            display: block;
-            margin: 10px auto; /* Center the image */
-        }
-
-        .deal-body {
-            margin-top: 15px;
-            font-size: 16px;
-            line-height: 1.4;
-        }
-
-        .deal-link {
-            display: inline-block;
-            background: #28a745;
-            color: #fff;
-            padding: 10px 20px;
-            margin: 10px 0;
             border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
         }
 
-        .deal-link:hover {
-            background: #218838;
+        /* Style for the special ad */
+        .special-ad {
+            background: #f7f7f7; /* Light background for contrast */
+            border: 2px solid #007bff; /* Blue border */
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px; /* Space between ad and products */
         }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
+        .special-ad h2 {
+            color: #d9534f; /* Red color for title */
+            margin-bottom: 15px;
+        }
+
+        .special-ad img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="product-container">
         <!-- Deals will be inserted here -->
-
-        <!-- Image at the bottom right corner -->
-        <img src="wechat.jpg" alt="Wechat Image" class="bottom-right-image">
+        <!-- Special advertisement -->
+        <div class="special-ad">
+            <h2>每日OzBargain折扣分享</h2>
+            <p><br />OzBargain是澳洲本土最全的折扣社区。我们每天会收集社区发布的最新折扣消息，翻译中文并分享朋友圈 <br />
+                <small>
+                    我们只负责转发，对消息真实性不负责任
+                </small>
+            </p>
+            <img src="../a_wechat.jpg" alt="WeChat QR Code" />
+        </div>
     </div>
-
-    <style>
-        /* Positioning Image at Bottom Right */
-        .bottom-right-image {
-            position: absolute; /* Absolute positioning */
-            right: 10px; /* Positioned 10px from the right */
-            bottom: 10px; /* Positioned 10px from the bottom */
-            max-width: 150px; /* Increased image size */
-            height: auto;
-            border: 8px solid #333333; /* Dark grey border for visibility */
-            border-radius: 10%; /* Circular Image */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Adding a subtle shadow */
-        }
-
-        .container {
-            position: relative; /* Relative positioning to contain the absolute image */
-            /* Other existing styles... */
-        }
-
-        /* Responsive Design for Image */
-        @media (max-width: 600px) {
-            .bottom-right-image {
-                max-width: 85px; /* Adjusted smaller image size for smaller screens */
-            }
-        }
-    </style>
 </body>
 </html>
