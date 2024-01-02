@@ -33,7 +33,7 @@ push:
 .PHONY: push
 
 ## projects
-run: up init scrape_home scrape_nodes translate_nodes draw screenshot
+run: up init scrape_home scrape_nodes translate_nodes draw screenshot sendmail
 .PHONY: run
 
 scrape_home: up
