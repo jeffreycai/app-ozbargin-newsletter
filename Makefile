@@ -35,6 +35,8 @@ push:
 ## projects
 run: up init scrape_home scrape_nodes translate_nodes draw screenshot sendmail
 .PHONY: run
+scrape: up init scrape_home scrape_nodes translate_nodes
+.PHONY: scrape
 
 scrape_home: up
 	${RUN} python3 scrape_home.py
@@ -50,6 +52,7 @@ translate_nodes: up
 
 init: up
 	${RUN} python3 init.py
+	@if [ ! -f app/gcp-svc-acc-key.json ]; then echo "Error: make sure you get Google Svc Account key created at 'app/gcp-svc-acc-key.json'"; fi
 .PHONY: init
 
 draw: up # generate htmls

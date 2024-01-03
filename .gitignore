@@ -1,5 +1,6 @@
 .env
 .DS_Store
 app/data/*
+app/gcp-svc-acc-key.json
 __pycache__
 app/publish/output*

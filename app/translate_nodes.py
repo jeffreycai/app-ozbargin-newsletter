@@ -11,6 +11,17 @@ logger = setup_logger(__name__)
 
 api_key = os.getenv('API_KEY')
 
+
+#genai.configure(api_key=api_key)
+
+#model = genai.GenerativeModel('gemini-pro')
+#response = model.generate_content('Say hi')
+
+#print(response.text)
+#exit()
+
+
+
 def translate(text, api_key):
     try:
         genai.configure(api_key=api_key)
@@ -21,7 +32,8 @@ def translate(text, api_key):
 
         # Make the API call
         response = model.generate_content(prompt)
-        logger.info(f"Translation feedback: {response.prompt_feedback}")
+
+        # logger.info(f"Translation feedback: {response.prompt_feedback}")
         return response.text
 
     except Exception as e:
