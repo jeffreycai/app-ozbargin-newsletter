@@ -11,7 +11,7 @@ async function takeScreenshot(filePath, outputPath) {
     });
 
     const page = await browser.newPage();
-    await page.setViewport({ width: 1200, height: 800 });
+    await page.setViewport({ width: 1256, height: 800 });
 
     const fileUrl = url.pathToFileURL(path.resolve(filePath)).toString();
     await page.goto(fileUrl, { waitUntil: 'networkidle2' });

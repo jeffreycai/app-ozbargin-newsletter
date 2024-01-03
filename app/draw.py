@@ -23,7 +23,7 @@ def fetch_records():
                     SELECT title_cn, image, body_cn, deal_link FROM deals
                     WHERE title_cn IS NOT NULL AND body_cn IS NOT NULL
                     ORDER BY updated_at DESC
-                    LIMIT 20
+                    LIMIT 25
                 ''')
                 records = curs.fetchall()
                 logger.info(f"Fetched {len(records)} records from the database")
@@ -54,6 +54,8 @@ def generate_webpage(records, template_file, output_dir, group_number):
             <img src="data:image/jpeg;base64,{image}" alt="Product 1" class="product-image">
         </div>
             '''
+            if group_number % 2 == 0:
+                deal_html += '<style>body {border-color: #5F59F7}</style>'
 
         final_html = html_template.replace('<!-- Deals will be inserted here -->', deal_html)
 

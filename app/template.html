@@ -12,13 +12,14 @@
             padding: 0;
             background: #eaeaea;
             color: #333;
+            border: 20px solid #ff69b4; /* This line adds a pink border */
         }
 
         .product-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 3px;
             box-sizing: border-box;
         }
 
@@ -31,20 +32,21 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            height: 600px; /* Fixed height for each product */
+            height: 555px; /* Fixed height for each product */
         }
 
         .product-title {
             font-size: 1.3em;
             color: #007bff;
-            margin-bottom: 15px;
+            margin-block-end: 0px;
+            margin-block-start: 0px;
         }
 
         .product-introduction {
             font-size: 1.1em;
-            text-align: center;
+            text-align: left;
             margin-bottom: 15px;
-            height: 260px; /* Fixed height for the introduction text */
+            height: 240px; /* Fixed height for the introduction text */
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -56,6 +58,8 @@
             max-width: 100%;
             height: auto;
             border-radius: 5px;
+            min-width: 280px;
+            max-height: 250px;
         }
 
         /* Style for the special ad */
@@ -66,7 +70,6 @@
             text-align: center;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 30px; /* Space between ad and products */
         }
 
         .special-ad h2 {
@@ -88,9 +91,9 @@
         <!-- Special advertisement -->
         <div class="special-ad">
             <h2>每日OzBargain折扣分享</h2>
-            <p><br />OzBargain是澳洲本土最全的折扣社区。我们每天会收集社区发布的最新折扣消息，翻译中文并分享朋友圈 <br />
-                <small>
-                    我们只负责转发，对消息真实性不负责任
+            <p>OzBargain是澳洲本土最大的折扣社区。我们收集最新的折扣消息，翻译中文并分享
+                <br /><small>
+                    仅转发，消息真实性请自行判断
                 </small>
             </p>
             <img src="../a_wechat.jpg" alt="WeChat QR Code" />

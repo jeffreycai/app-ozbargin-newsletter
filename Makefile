@@ -68,6 +68,6 @@ sendmail: up
 .PHONY: sendmail
 
 cleanup: #down
-	rm -rf publish/output*
+	rm -rf app/publish/output*
 #	docker volume ls -q | grep ozbargin | xargs -r docker volume rm -f
 .PHONY: cleanup

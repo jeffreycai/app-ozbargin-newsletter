@@ -25,6 +25,7 @@ def main():
     if newsletter_content:
         # Find all PNG files in the latest output directory
         png_files = glob.glob(os.path.join(latest_output_path, '*.png'))
+        png_files.append(os.path.join(publish_dir, '0_recap.png'))
 
         # Initialize GmailSender and send the email
         sender = GmailSender()
