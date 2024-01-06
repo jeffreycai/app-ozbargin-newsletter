@@ -21,17 +21,28 @@ def create_database():
 
     # Create a new table (if it doesn't already exist)
     c.execute(sql.SQL('''
+        CREATE TABLE IF NOT EXISTS category (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            name_cn TEXT
+        );
         CREATE TABLE IF NOT EXISTS deals (
             id SERIAL PRIMARY KEY,
             node_id INTEGER UNIQUE NOT NULL,
             title TEXT NOT NULL,
             title_cn TEXT,
+            category_id INTEGER NOT NULL,
+            coupon TEXT,
+            vote TEXT,
+            valid_till TEXT,
+            is_affiliate BOOLEAN NOT NULL DEFAULT FALSE,
             url TEXT NOT NULL,
-            image TEXT,          -- Field for base64 encoded image
-            body TEXT,           -- Field for text blob (body)
+            image TEXT,
+            body TEXT,
             body_cn TEXT,
             deal_link TEXT,
-            updated_at TIMESTAMP  -- Timestamp field
+            updated_at TIMESTAMP,
+            foreign KEY (category_id) REFERENCES category(id)
         );
     '''))
 

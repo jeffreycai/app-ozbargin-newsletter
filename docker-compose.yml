@@ -16,21 +16,22 @@ services:
 
   db:
     image: postgres:13
-    container_name: ops_db
+    container_name: ${DB_NAME}
     environment:
-      POSTGRES_DB: ops_db
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+     - "${DB_PORT_HOST}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: ops_pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PG_ADMIN_PASSWORD}
     ports:
       - "5050:80" # localhost:5050
     depends_on:

@@ -43,10 +43,11 @@ def translate(text, api_key):
 def get_records_with_null_body_cn():
     try:
         conn = psycopg2.connect(
-            dbname=os.getenv('POSTGRES_DB', 'ops_db'),
-            user=os.getenv('POSTGRES_USER', 'root'),
-            password=os.getenv('POSTGRES_PASSWORD', 'root'),
-            host='db'
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT_HOST')
         )
         c = conn.cursor()
         c.execute("SELECT id, body, title FROM deals WHERE body_cn IS NULL")
@@ -64,10 +65,11 @@ def get_records_with_null_body_cn():
 def update_record_cn(record_id, translated_text_body, translated_text_title):
     try:
         conn = psycopg2.connect(
-            dbname=os.getenv('POSTGRES_DB', 'ops_db'),
-            user=os.getenv('POSTGRES_USER', 'root'),
-            password=os.getenv('POSTGRES_PASSWORD', 'root'),
-            host='db'
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT_HOST')
         )
         c = conn.cursor()
         c.execute("UPDATE deals SET body_cn = %s, title_cn = %s WHERE id = %s", (translated_text_body, translated_text_title, record_id))

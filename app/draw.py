@@ -11,19 +11,19 @@ logger = setup_logger(__name__)
 def fetch_records():
     try:
         conn = psycopg2.connect(
-            dbname=os.getenv('POSTGRES_DB', 'ops_db'),
-            user=os.getenv('POSTGRES_USER', 'root'),
-            password=os.getenv('POSTGRES_PASSWORD', 'root'),
-            host='db'
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT_HOST')
         )
-
         with conn:
             with conn.cursor() as curs:
                 curs.execute('''
                     SELECT title_cn, image, body_cn, deal_link FROM deals
-                    WHERE title_cn IS NOT NULL AND body_cn IS NOT NULL
-                    ORDER BY updated_at DESC
-                    LIMIT 25
+                    WHERE title_cn IS NOT NULL AND body_cn IS NOT NULL AND category_id != 1
+                    ORDER BY updated_at ASC
+                    LIMIT 40
                 ''')
                 records = curs.fetchall()
                 logger.info(f"Fetched {len(records)} records from the database")

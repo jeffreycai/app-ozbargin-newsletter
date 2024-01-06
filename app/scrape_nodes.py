@@ -1,5 +1,8 @@
-#!/opt/venv/bin/python3
-
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -15,10 +18,11 @@ def get_null_updated_records():
     try:
         # Connect to the PostgreSQL database
         conn = psycopg2.connect(
-            dbname=os.getenv('POSTGRES_DB', 'ops_db'),
-            user=os.getenv('POSTGRES_USER', 'root'),
-            password=os.getenv('POSTGRES_PASSWORD', 'root'),
-            host='db'
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT_HOST')
         )
         c = conn.cursor()
 
@@ -39,10 +43,11 @@ def update_record(node_id, body, image, link):
     try:
         # Connect to the PostgreSQL database
         conn = psycopg2.connect(
-            dbname=os.getenv('POSTGRES_DB', 'ops_db'),
-            user=os.getenv('POSTGRES_USER', 'root'),
-            password=os.getenv('POSTGRES_PASSWORD', 'root'),
-            host='db'
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT_HOST')
         )
         c = conn.cursor()
 
@@ -61,17 +66,25 @@ def update_record(node_id, body, image, link):
             conn.close()
 
 def scrape_and_update():
+    driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    wait = WebDriverWait(driver, 10)
+
     records = get_null_updated_records()
 
     for record in records:
         node_id, url = record
         url = f'https://{os.getenv("DOMAIN")}{url}'
         logger.info(f"Processing Node ID: {node_id}, URL: {url}")
+        driver.get(url)
+        get_url = driver.current_url
+        wait.until(EC.url_to_be(url))
+        if get_url != url:
+            logger.error(f"Failed to load the homepage: {get_url}")
 
         try:
             # Fetch the webpage
-            response = requests.get(url)
-            soup = BeautifulSoup(response.content, 'html.parser')
+            page_source = driver.page_source
+            soup = BeautifulSoup(page_source, 'html.parser')
 
             # Extract main body content and image URL (modify according to the actual structure of the webpage)
             main_body = soup.find('div', {'class': 'node-ozbdeal'}).find('div', {'class': 'content'}).get_text(strip=True)
@@ -90,6 +103,7 @@ def scrape_and_update():
         except Exception as e:
             logger.error(f"Error processing Node ID {node_id}: {e}")
 
+## main
 if __name__ == '__main__':
     logger.info("Scraping nodes...")
     scrape_and_update()
