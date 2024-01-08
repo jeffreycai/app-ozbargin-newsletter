@@ -22,7 +22,7 @@ def fetch_records():
                 curs.execute('''
                     SELECT title_cn, image, body_cn, deal_link FROM deals
                     WHERE title_cn IS NOT NULL AND body_cn IS NOT NULL AND category_id != 1
-                    ORDER BY updated_at ASC
+                    ORDER BY published_at DESC
                     LIMIT 40
                 ''')
                 records = curs.fetchall()

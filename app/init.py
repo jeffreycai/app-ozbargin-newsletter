@@ -12,10 +12,11 @@ def create_database():
     # Connect to the PostgreSQL database
     # Adjust connection parameters as needed
     conn = psycopg2.connect(
-        dbname=os.getenv('POSTGRES_DB', 'ops_db'),
-        user=os.getenv('POSTGRES_USER', 'root'),
-        password=os.getenv('POSTGRES_PASSWORD', 'root'),
-        host='db'  # Use the service name from docker-compose as the host
+        dbname=os.getenv('DB_NAME'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        host=os.getenv('DB_HOST'),
+        port=os.getenv('DB_PORT_HOST')
     )
     c = conn.cursor()
 
@@ -42,6 +43,7 @@ def create_database():
             body_cn TEXT,
             deal_link TEXT,
             updated_at TIMESTAMP,
+            published_at TIMESTAMP,
             foreign KEY (category_id) REFERENCES category(id)
         );
     '''))

@@ -9,9 +9,10 @@ RUN=DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME) docker-compose run --rm --workdir /op
 
 init:
 	python3 -m pip install -r app/requirements.txt
+	python3 app/init.py
 .PHONY: init
 
-run: up init scrape_home
+run: up init scrape_home scrape_nodes translate_nodes sendmail
 
 scrape_home: up
 	python3 app/scrape_home.py

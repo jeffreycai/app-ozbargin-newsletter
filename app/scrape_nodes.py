@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
+import time
 from bs4 import BeautifulSoup
 from datetime import datetime
 import psycopg2
@@ -65,6 +66,25 @@ def update_record(node_id, body, image, link):
             c.close()
             conn.close()
 
+def load_page_with_cloudflare(driver, wait, logger, url):
+    driver.get(url)
+    time.sleep(5)  # Wait for Cloudflare's initial check
+
+    try:
+        # Check for Cloudflare security challenge iframe
+        WebDriverWait(driver, 10).until(
+            EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe[title='Widget containing a Cloudflare security challenge']"))
+        )
+        # If iframe is present and checkbox is clickable, click it
+        WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "label.ctp-checkbox-label"))
+        ).click()
+        # Switch back to the main document
+        driver.switch_to.default_content()
+    except TimeoutException:
+        # If iframe is not present, proceed without clicking
+        logger.info("No Cloudflare challenge detected, proceeding.")
+
 def scrape_and_update():
     driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     wait = WebDriverWait(driver, 10)
@@ -75,11 +95,7 @@ def scrape_and_update():
         node_id, url = record
         url = f'https://{os.getenv("DOMAIN")}{url}'
         logger.info(f"Processing Node ID: {node_id}, URL: {url}")
-        driver.get(url)
-        get_url = driver.current_url
-        wait.until(EC.url_to_be(url))
-        if get_url != url:
-            logger.error(f"Failed to load the homepage: {get_url}")
+        load_page_with_cloudflare(driver, wait, logger, url)
 
         try:
             # Fetch the webpage
